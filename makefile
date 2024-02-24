@@ -1,19 +1,11 @@
-# Author: Grant Zobel - zobelg@bc.edu
+#author: Grant Zobel - zobelg@bc.edu
 
-APP = fp_analyzer
+APP = div
 FLAGS = -Wall -Werror -std=c99
 CC = gcc
-$(APP): $(APP).c
-	$(CC) $(FLAGS) $^ main.c -o $@_f
-	$(CC) $(FLAGS) -D DOUBLE $^ main.c -o $@_d
-$(APP)_f: $(APP).c
-	$(CC) $(FLAGS) $^ main.c -o $@
-$(APP)_d: $(APP).c
-	$(CC) $(FLAGS) -D DOUBLE $^ main.c -o $@
+$(APP): $(APP)1.s $(APP)2.s
+	$(CC) $(FLAGS) $(APP)1.s main.c -o $@1
+	$(CC) $(FLAGS) $(APP)2.s main.c -o $@2
 clean:
-	rm -rf  $(APP)_f
-	rm -rf  $(APP)_d
-clean_f:
-	rm -rf $(APP)_f
-clean_d:
-	rm -rf $(APP)_d
+	rm -rf  $(APP)1
+	rm -rf  $(APP)2                        

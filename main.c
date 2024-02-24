@@ -1,39 +1,25 @@
-/*
- * Author: Grant Zobel - zobelg@bc.edu
- */
+#include <stdio.h>
+#include <stdlib.h>
 
-#include "fp_analyzer.h"
+int div_qr(int, int, int *);
 
-FP_TYPE power_of_2(int);
-
-void print_bits(unsigned int, int);
-
-void print_components(Converter);
-
-void print_denormalized(Converter);
-
-void print_normalized(Converter);
-
-void print_reconstitution(Converter);
-
-int main(int argc, char * argv[]) {
-    union Converter input;
-    if ((argc > 1) && (! strcmp(argv[1], "special"))) {
-        FP_TYPE special_values[4] = { 1.0 / 0.0, -1.0 / 0.0, NAN, -NAN };
-        for (int i = 0; i < sizeof(special_values) / sizeof(FP_TYPE); ++i) {
-            input.f = special_values[i];
-            print_components(input);
-            putchar('\n');
-        }
-    }
-    else {
-        printf("Please enter a floating-point number or q to quit.\n");
-        printf("> ");
-        while (scanf(FP_SPECIFIER, &input.f)) {
-            print_components(input); 
-            print_reconstitution(input);
+int main(int arg, char * argv[]) {
+    printf("Please enter an integer dividend and divisor, or \"q\" to quit.\n");
+    int dividend;
+    int divisor;
+    printf("> ");
+    while(scanf("%d %d", &dividend, &divisor)) {
+        if(divisor == 0) {
+            printf("Division by 0 is undefined.\n");
             printf("> ");
+            continue;
         }
+        else {
+            int remainder;
+            int quotient = div_qr(dividend, divisor, &remainder);
+            printf("%d / %d = %d, r %d\n", dividend, divisor, quotient, remainder);
+        }
+        printf("> ");
     }
     return EXIT_SUCCESS;
 }
